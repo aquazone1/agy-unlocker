@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.log
+*.db*
+.env*
+subscription*
+config*.json
+*.tar*
+*.zip
+*.exe
+*.bak
+/agy
+/private/

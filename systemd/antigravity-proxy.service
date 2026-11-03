@@ -1,0 +1,11 @@
+[Unit]
+Description=Local proxy for Antigravity Google access
+
+[Service]
+ExecStart=/usr/bin/sing-box run -c %h/.config/antigravity-proxy/config.json
+Restart=on-failure
+RestartSec=5
+UMask=0077
+
+[Install]
+WantedBy=default.target

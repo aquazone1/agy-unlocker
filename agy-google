@@ -1,0 +1,8 @@
+#!/bin/sh
+# ponytail: pinned CLI 1.4.12; rebuild patched copy after upgrading original.
+export HTTP_PROXY=http://127.0.0.1:18047
+export HTTPS_PROXY="$HTTP_PROXY" ALL_PROXY="$HTTP_PROXY"
+export http_proxy="$HTTP_PROXY" https_proxy="$HTTP_PROXY" all_proxy="$HTTP_PROXY"
+export NO_PROXY=localhost,127.0.0.1 no_proxy=localhost,127.0.0.1
+export GODEBUG=http2client=0
+exec "$HOME/.local/lib/antigravity-proxy/agy" "$@"
