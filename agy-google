@@ -1,6 +1,7 @@
 #!/bin/sh
 # ponytail: pinned CLI 1.4.12; rebuild patched copy after upgrading original.
-export HTTP_PROXY=http://127.0.0.1:18047
+# AGY_PROXY: host:port of the proxy; default local, set to the router address for central setups.
+export HTTP_PROXY="http://${AGY_PROXY:-127.0.0.1:18047}"
 export HTTPS_PROXY="$HTTP_PROXY" ALL_PROXY="$HTTP_PROXY"
 export http_proxy="$HTTP_PROXY" https_proxy="$HTTP_PROXY" all_proxy="$HTTP_PROXY"
 export NO_PROXY=localhost,127.0.0.1 no_proxy=localhost,127.0.0.1
