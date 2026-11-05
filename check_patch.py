@@ -1,7 +1,7 @@
 from pathlib import Path
 import hashlib
 root = Path.home()
-original = (root / ".local/bin/agy").read_bytes()
+original = (root / ".local/lib/antigravity-proxy/agy-1.4.12-original").read_bytes()
 patched = (root / ".local/lib/antigravity-proxy/agy-1.4.12").read_bytes()
 assert hashlib.sha256(original).hexdigest() == "1edfb30477447825f0aaa05fd9a91d82f9adf26686f41cd4f5c70b90abe383e8", "Original changed"
 assert original.count(b"ineligible") == 9

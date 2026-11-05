@@ -1,0 +1,6 @@
+#!/bin/sh
+# Block CLI auto-update for every launch; the pinned original lives in lib.
+# Manual update: replace ~/.local/lib/antigravity-proxy/agy-1.4.12-original,
+# verify the new SHA-256, then re-run patch.py and check_patch.py.
+export AGY_CLI_DISABLE_AUTO_UPDATE=1
+exec "$HOME/.local/lib/antigravity-proxy/agy-1.4.12-original" "$@"

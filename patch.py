@@ -7,6 +7,7 @@ import stat
 import tempfile
 
 ORIGINAL_SHA256 = "1edfb30477447825f0aaa05fd9a91d82f9adf26686f41cd4f5c70b90abe383e8"
+ORIGINAL = Path.home() / ".local/lib/antigravity-proxy/agy-1.4.12-original"
 
 
 def patch_bytes(data):
@@ -18,7 +19,7 @@ def patch_bytes(data):
 
 
 def main():
-    source = Path.home() / ".local/bin/agy"
+    source = ORIGINAL
     target = Path.home() / ".local/lib/antigravity-proxy/agy-1.4.12"
     original = source.read_bytes()
     patched = patch_bytes(original)
