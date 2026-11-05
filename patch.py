@@ -19,7 +19,7 @@ def patch_bytes(data):
 
 def main():
     source = Path.home() / ".local/bin/agy"
-    target = Path.home() / ".local/lib/antigravity-proxy/agy"
+    target = Path.home() / ".local/lib/antigravity-proxy/agy-1.4.12"
     original = source.read_bytes()
     patched = patch_bytes(original)
     if target.exists():

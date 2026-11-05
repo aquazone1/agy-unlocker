@@ -1,0 +1,6 @@
+[Unit]
+Description=Agy watchdog: proxy + Gemini health check
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/agy-unlocker/watchdog.py
