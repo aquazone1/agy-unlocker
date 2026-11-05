@@ -121,6 +121,48 @@ OAuth-вход Google в браузере.
 испортило патч (проверьте `python3 check_patch.py`), аккаунт не имеет
 доступа к Antigravity.
 
+### Ошибка входа: `127.0.0.1:10809: connect: connection refused`
+
+Если при входе появляется:
+
+```text
+token exchange failed: Post "https://oauth2.googleapis.com/token": proxyconnect tcp: dial tcp 127.0.0.1:10809: connect: connection refused
+```
+
+CLI не смог подключиться к локальному прокси: на указанном адресе нет
+доступного слушателя. До обмена токена с Google запрос не дошёл.
+Возможная причина — несовпадение портов: обёртка `agy-google` по умолчанию
+использует `10809` (Xray), а sing-box из `proxy_config.py` слушает `18047`.
+
+Проверьте порты на той машине, где запущен CLI:
+
+```bash
+ss -ltnp '( sport = :10809 or sport = :18047 )'
+systemctl --user status antigravity-proxy.service
+```
+
+Если sing-box слушает `127.0.0.1:18047`, проверьте соединение и повторите вход:
+
+```bash
+curl --max-time 20 --proxy http://127.0.0.1:18047 --noproxy '' \
+  --output /dev/null --write-out 'HTTP %{http_code}\n' \
+  --data 'grant_type=authorization_code' https://oauth2.googleapis.com/token
+AGY_PROXY=127.0.0.1:18047 agy-google
+```
+
+Для этой проверки ожидается HTTP `400`: Google получил запрос, но в нём
+намеренно нет OAuth-кода и данных клиента. Это проверка соединения, не входа.
+Если нужный порт не слушается, сначала запустите соответствующий прокси;
+для настроенного sing-box: `systemctl --user start antigravity-proxy.service`.
+
+Чтобы сохранить адрес для последующих запусков, добавьте
+`export AGY_PROXY=127.0.0.1:18047` в `~/.bashrc` (для Bash) и откройте новый
+терминал. Разовая переменная действует только на один запуск. Также можно
+изменить порт по умолчанию в установленном `~/.local/bin/agy-google`, но
+повторная установка обёртки из репозитория перезапишет эту правку.
+Для прокси на другой машине задайте её адрес: `127.0.0.1` всегда означает
+машину, на которой работает CLI.
+
 ## Установка
 
 Нужны Python 3.8+, GNU timeout и пользовательский systemd; sing-box — только
